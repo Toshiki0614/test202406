@@ -82,13 +82,18 @@ Flaskを利用しての会社ホームページの作成
   │   ├── forms.py
   │   ├── views.py
   │   └── image_handler.py
-  ├── **users**
-  |   ├── __pycache__
-  │   │   ├──__init__.cpython-310.pyc
-  │   │   ├──forms.cpython-310.pyc
-  │   │   └──views.cpython-310.pyc
-  │   ├──__init__.py
-  │   ├── forms.py
-  │   └── views.py
+  └── **users**
+      ├── __pycache__
+      │   ├──__init__.cpython-310.pyc
+      │   ├──forms.cpython-310.pyc
+      │   └──views.cpython-310.pyc
+      ├──__init__.py
+      ├── forms.py
+      └── views.py
 
 <p align="right">(<a href="#top">トップへ</a>)</p>
+
+## 動作確認
+・コマンドプロンプトにてpython init_db.pyを行いdb作成
+・python app.pyを行いhttp://127.0.0.1:5000/にアクセス
+・一般ユーザーとして確認。http://127.0.0.1:5000/loginでdbに入れたユーザーでログイン可能。投稿フォームはこちらで確認。
