@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--403エラーページ
+登録されていないユーザーがアクセスした場合に出すページ-->
+
+<section id="menu">
+    <div class="conteiner my-3 py-4 bg-light">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{{url_for('main.index')}}" class="btn btn-seconday w-100">メインページへ戻る</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<header id="page-header">
+    <div class="container my-3 py-3 bg-light">
+        <h1>403 Access Forbidden!</h1>
+        <p>誠に恐れ入りますが、お客様がアクセスしたページにはアクセスできませんでした。<br>
+            指定されたページへのアクセスが許可されておりません。</p>
+    </div>
+</header>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+    <section id="user_register">
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-lg-4 mx-auto">
+                    <div class="card bg-primary text-center">
+                        <div class="card-body text-light">
+                            <h3>ユーザー登録</h3>
+                            <p>ユーザー情報を入力してください。</p>
+                            <form method="POST">
+                                {{ form.hidden_tag() }}
+                                <div class="mb-3">
+                                    {{ render_field(form.username, placeholder="ユーザー名", class="form-control form-control-lg") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ render_field(form.email, placeholder="メールアドレス", class="form-control form-control-lg") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ render_field(form.password, placeholder="パスワード", class="form-control form-control-lg") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ render_field(form.pass_confirm, placeholder="パスワード(確認)", class="form-control form-control-lg") }}
+                                </div>                                             {{ form.submit(class="btn btn-outline-light w-100") }}                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

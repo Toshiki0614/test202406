@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <section id="login">
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-lg-4 mx-auto">
+                    <div class="card bg-primary text-center">
+                        <div class="card-body text-light">
+                            <h3>ログイン</h3>
+                            <form method="POST">
+                                {{ form.hidden_tag() }}
+                                <div class="mb-3">
+                                    {{ render_field(form.email, class="form-control form-control-lg", placeholder="メールアドレス") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ render_field(form.password, class="form-control form-control-lg", placeholder="パスワード") }}
+                                </div>
+                                {{ form.submit(class="btn btn-outline-light w-100", value="ログイン") }}                 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+{% endblock %}

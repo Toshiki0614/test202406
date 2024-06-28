@@ -1,0 +1,79 @@
+<!--ユーザー更新ページ-->
+
+{% extends "base.html" %}
+{% block content %}
+
+<!--
+ユーザーが管理者であった場合に
+ユーザー削除のボタンを出現させる
+-->
+{% if current_user.is_administrator() %}
+<section id="menu">
+    <div class="container my-3 py-4 bg-light">
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#del_modal">
+                    削除
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section id="user_update">
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-lg-4 mx-auto">
+                <div class="card bg-success text-center">
+                    <div class="card-body text-light">
+                        <h3>ユーザー更新</h3>
+                        <p>ユーザー情報を変更してください。</p>
+                        <form method="POST">
+                            {{ form.hidden_tag() }}
+                            <div class="mb-3">
+                                {{ render_field(form.username, class="form-control form-control-lg",
+                                placeholder="ユーザー名") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ render_field(form.email, class="form-control form-control-lg", placeholder="メールアドレス")
+                                }}
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                {{ render_field(form.password, class="form-control form-control-lg",
+                                placeholder="新パスワード") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ render_field(form.pass_confirm, class="form-control form-control-lg",
+                                placeholder="新パスワード(確認)") }}
+                            </div> {{ form.submit(class="btn btn-outline-light w-100", value="更新") }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="del_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">削除確認</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>このユーザーを削除しますか？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                <form action="{{ url_for('users.delete_user', user_id=form.id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="削除">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

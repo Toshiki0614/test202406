@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!--お問い合わせ入力ページ-->
+
+<section id="inquiry">
+    <div class="container my-3">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>お問い合わせ</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% if inquiry_id %}
+                            <fieldset disabled>
+                                {% endif %}
+                                {{ form.hidden_tag() }}
+                                <div class="mb-3">
+                                    {{ form.name.label(class="form-control-label") }}
+                                    {{ render_field(form.name, class="form-control") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.email.label(class="form-control-label") }}
+                                    {{ render_field(form.email, class="form-control") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.title.label(class="form-control-label") }}
+                                    {{ render_field(form.title, class="form-control") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.text.label(class="form-control-label") }}
+                                    {{ render_field(form.text, class="form-control", rows="6") }}
+                                </div>
+                                <div class="container mb-3">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            {% if not inquiry_id %}
+                                            {{ form.submit(class="btn btn-success w-100") }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if inquiry_id %}
+                            </fieldset>
+                            {% if current_user.is_administrator() %}
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                    data-bs-target="#del_modal">
+                                    削除
+                                </button>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if inquiry_id %}
+<!-- Modal -->
+<div class="modal fade" id="del_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">削除確認</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>このお問い合わせを削除しますか？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                <form action="{{ url_for('main.delete_inquiry', inquiry_id=inquiry_id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="削除">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

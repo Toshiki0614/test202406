@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!--お問い合わせ管理-->
+
+<header id="page-header">
+    <div class="container my-3 py-3 bg-light">
+        <div class="row">
+            <div class="col-md-6 m-auto text-center">
+                <h1>お問い合わせ管理</h1>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="list">
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>最新のお問い合わせ</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped text-nowrap">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>投稿者</th>
+                                    <th>メールアドレス</th>
+                                    <th>投稿日</th>
+                                    <th>タイトル</th>
+                                    <th>本文</th>
+                                    <th>詳細</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inquiry in inquiries.items %}
+                                <tr>
+                                    <td>{{ inquiry.id }}</td>
+                                    <td>{{ inquiry.name | truncate(10) }}</td>
+                                    <td>{{ inquiry.email | truncate(20) }}</td>
+                                    <td>{{ inquiry.date.strftime('%Y/%m/%d') }}</td>
+                                    <td>{{ inquiry.title | truncate(20) }}</td>
+                                    <td>{{ inquiry.text | truncate(30) }}</td>
+                                    <td><a href="{{ url_for('main.display_inquiry', inquiry_id=inquiry.id) }}"
+                                            class="btn btn-secondary">
+                                            詳細
+                                        </a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<nav class="my-2" aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li {% if inquiries.has_prev %}class="page-item" {% else %} class="page-item disabled" {% endif %}><a
+                class="page-link"
+                href="{% if inquiries.has_prev %}{{ url_for('main.inquiry_maintenance', page=inquiries.prev_num) }}{% else %}#{% endif %}">前へ</a>
+        </li>
+
+        {% for page_num in inquiries.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if inquiries.page == page_num %}
+        <li class="page-item disabled"><a class="page-link" href="#">{{ page_num }}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('main.inquiry_maintenance', page=page_num) }}">{{
+                page_num }}</a></li>
+        {% endif %}
+        {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">&hellip;</a></li>
+        {% endif %}
+        {% endfor %}
+
+        <li {% if inquiries.has_next %}class="page-item" {% else %} class="page-item disabled" {% endif %}><a
+                class="page-link"
+                href="{% if inquiries.has_next %}{{ url_for('main.inquiry_maintenance', page=inquiries.next_num) }}{% else %}#{% endif %}">次へ</a>
+        </li>
+    </ul>
+</nav>
+
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!--会社情報-->
+
+<header id="page-header">
+    <div class="container my-3 bg-light">
+        <div class="row">
+            <div class="col-md-6 m-auto text-center">
+                <h1>会社情報</h1>
+                <p>どのような会社かを簡単に説明。どのような会社かを簡単に説明。</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="about">
+    <div class="container py-3">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>提供サービス</h2>
+                <h3 class="fst-italic">サービス１</h3>
+                <p>サービス内容の説明。</p>
+                <br>
+                <h3 class="fst-italic">サービス２</h3>
+                <p>サービス内容の説明。</p>
+                <br>
+                <h3 class="fst-italic">サービス３</h3>
+                <p>サービス内容の説明。</p>
+            </div>
+            <div class="col-md-6">
+                <img src="https://source.unsplash.com/alw-CwGFmwQ/700x700" alt=""
+                    class="rounded-circle img-fluid d-none d-md-block">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="company_info">
+    <div class="container py-3 bg-dark text-light">
+        <h2>会社概要</h2>
+        <p>社名：社名XXXXXX</p>
+        <p>設立：９９９９年１２月３１日</p>
+        <p>資本金：９９９億円</p>
+        <p>本社：〒９９９－９９９９　本社住所</p>
+        <p>TEL：９９９－９９９－９９９９</p>
+        <p>従業員：９９９名</p>
+    </div>
+</section>
+
+{% endblock %}

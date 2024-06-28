@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--404エラーページ
+アクセスしたページが存在しなかった場合に出すページ-->
+
+<section id="menu">
+    <div class="conteiner my-3 py-4 bg-light">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{{url_for('main.index')}}" class="btn btn-secondary w-100">メインページへ戻る</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<header id="page-header">
+    <div class="container my-3 py-3 bg-light">
+        <h1>ページが見つかりません</h1>
+        <p>誠に恐れ入りますが、お客様がアクセスしたページが見つかりませんでした。<br>
+            既に削除されたか、アドレスが間違っている可能性がございます。</p>
+    </div>
+</header>
+
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content %}
+
+<header id="page-header">
+    <div class="container my-3 bg-light">
+        <div class="row">
+            <div class="col-md-6 m-auto text-center">
+                <h1 class="fst-italic">{{ post.title }}</h1>
+                <hr>
+                <p>{{ post.date.strftime('%Y/%m/%d') }} : {{ post.author.username }}（{{ post.blogcategory.category }}）
+                </p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--ページ明細-->
+<div class="container my-3">
+    <div class="row mb-2">
+        <!--コンテンツ-->
+        <div class="col-md-8">
+            <!--ブログ投稿-->
+            <section id="blog_post">
+                <div class="container py-2 bg-light">
+                    {% if post.featured_image %}
+                    <div class="mb-3" style="text-align: center;">
+                        <img src="{{ url_for('static', filename='featured_image/' + post.featured_image) }}"
+                            class="img-fluid">
+                    </div>
+                    {% endif %}
+                    <p class="mb-3">{{ post.text|safe }}</p>
+                </div>
+            </section>
+            <!--メニュー-->
+            <section id="menu">
+                <div class="container my-3 py-4 bg-light">
+                    <div class="row">
+                        {% if current_user.is_active %}
+                        {% if post.author == current_user %}
+                        <div class="col-md-3 mb-3">
+                            <a href="{{ url_for('main.update_post', blog_post_id=post.id) }}"
+                                class="btn btn-success w-100">更新</a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                data-bs-target="#del_modal">
+                                削除
+                            </button>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-secondary w-100" onclick="history.back()">
+                                戻る
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!--サイドバー-->
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <!--検索欄-->
+                <div class="container-fluid mb-3">
+                    <form action="{{ url_for('main.search') }}" class="d-flex" method="POST">
+                        {{ form.hidden_tag() }}
+                        {{ render_field(form.searchtext, class="form-control me-2", placeholder="検索するテキストを入力") }}
+                        {{ form.submit(class="btn btn-outline-success") }}
+                    </form>
+                </div>
+                <!--会社情報-->
+                <div class="p-4 mb-2 bg-light">
+                    <h4 class="fst-italic">会社情報</h4>
+                    <p>ここには会社概要が出ます。</p>
+                </div>
+                <!--最新記事-->
+                <div class="p-4">
+                    <h4 class="fst-italic">RECENT POST <span class="ms-2 fs-6">最新記事</span></h4>
+                    <hr>
+                    <ol class="list-unstyled">
+                        {% for recent_post in recent_blog_posts %}
+                        <li>
+                            <a href="{{ url_for('main.blog_post', blog_post_id=recent_post.id) }}"
+                                class="text-decoration-none">
+                                {% if recent_post.featured_image %}
+                                <img src="{{ url_for('static', filename='featured_image/' + recent_post.featured_image) }}"
+                                    class="img-fluid" width="90" height="50">
+                                {% endif %}
+                                <span class="ms-2">{{ recent_post.title | truncate(14) }}</span>
+                            </a>
+                        </li>
+                        <hr>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <!--カテゴリ一覧-->
+                <div class="p-4">
+                    <h4 class="fst-italic">CATEGORY <span class="ms-2 fs-6">カテゴリ一覧</span></h4>
+                    <hr>
+                    <ol class="list-unstyled">
+                        {% for blog_category in blog_categories %}
+                        <li>
+                            <a href="{{ url_for('main.category_posts', blog_category_id=blog_category.id) }}"
+                                class="text-decoration-none">
+                                <span class="ms-2">{{ blog_category.category | truncate(20) }}</span>
+                            </a>
+                        </li>
+                        <hr>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 削除ボタン押下後 -->
+<div class="modal fade" id="del_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">削除確認</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>このブログ投稿を削除しますか？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                <form action="{{ url_for('main.delete_post', blog_post_id=post.id) }}" method="POST">
+                    <input type="submit" class="btn btn-danger" value="削除">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
